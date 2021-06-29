@@ -18,7 +18,7 @@ import HomeIcon from '@material-ui/icons/Home'; import clsx from 'clsx';
 import PersonIcon from '@material-ui/icons/Person';
 import Button from '@material-ui/core/Button';
 import { Route, Switch, Link, BrowserRouter } from 'react-router-dom';
-import Usuario from '../views/Usuario'
+import Cliente from '../views/Cliente'
 import Home from '../views/Home'
 
 const drawerWidth = 240;
@@ -197,13 +197,13 @@ const NavBar = (prop) => {
 
                         </ListItem>
                         <ListItem>
-                            <Link className={classes.button} to="/usuario">
+                            <Link className={classes.button} to="/cliente">
                                 <Button
                                     className={classes.button}
                                     startIcon={<PersonIcon />}
-                                    href={'usuario'}
+                                    href={' cliente'}
                                 >
-                                    Usuario</Button>
+                                    Cliente</Button>
                             </Link>
 
                         </ListItem>
@@ -216,8 +216,8 @@ const NavBar = (prop) => {
                 <Route exact path='/'>
                     <Home />
                 </Route>
-                <Route  path='/Usuario'>
-                    <Usuario />
+                <Route  path='/cliente'>
+                    <Cliente />
                 </Route>
             </Switch>
         </BrowserRouter>
