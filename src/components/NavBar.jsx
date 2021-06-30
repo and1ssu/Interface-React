@@ -20,6 +20,7 @@ import Button from '@material-ui/core/Button';
 import { Route, Switch, Link, BrowserRouter } from 'react-router-dom';
 import Cliente from '../views/Cliente'
 import Home from '../views/Home'
+import CadCliente from '../views/CadCliente';
 
 const drawerWidth = 240;
 const useStyles = makeStyles((theme) => ({
@@ -218,6 +219,9 @@ const NavBar = (prop) => {
                 </Route>
                 <Route  path='/cliente'>
                     <Cliente />
+                </Route>
+                <Route  path='/cadastro'>
+                    <CadCliente />
                 </Route>
             </Switch>
         </BrowserRouter>

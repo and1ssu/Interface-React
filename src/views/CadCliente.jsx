@@ -3,7 +3,9 @@ import Grid from '@material-ui/core/Grid';
 import { makeStyles } from '@material-ui/core/styles';
 import { Button, Container } from '@material-ui/core';
 import { useState } from 'react';
-import useApi from '../ApiDesafio';
+import api from '../ApiDesafio';
+import { useEffect } from 'react';
+import { useLocation } from 'react-router-dom';
 
 
 const useStyles = makeStyles((theme) => ({
@@ -15,6 +17,12 @@ const useStyles = makeStyles((theme) => ({
             width: 230,
         },
     },
+    form: {
+        paddingLeft: 100,
+        margin: 0
+
+
+    }
 
 
 }));
@@ -24,8 +32,6 @@ const useStyles = makeStyles((theme) => ({
 
 const CadCliente = () => {
     const classes = useStyles();
-    const api = useApi();
-
 
     const [nome, setNome] = useState('');
     const [tipodepessoa, setTipodepessoa] = useState('');
@@ -40,47 +46,76 @@ const CadCliente = () => {
     const [complemento, setComplemento] = useState('');
     const [disebled, setdisebled] = useState('');
     const [error, setError] = useState('');
+    const [isNew, setIsNew] = useState('');
+    const location = useLocation();
+
+    useEffect(() => {
+        const { state } = location
+        const { dados, create } = state
+        setIsNew(create)
+
+        if(dados){
+            setNome(dados.nome)
+            setTipodepessoa(dados.tipodepessoa)
+            setCpf_cnpj(dados.cpf_cnpj)
+            setCep(dados.cep)
+            setEndereco(dados.endereco)
+            setBairro(dados.bairro)
+            setCidade(dados.cidade)
+            setEstado(dados.estado)
+            setPais(dados.pais)
+            setNumero(dados.numero)
+            setComplemento(dados.complemento)
+
+        } else {
+            setNome('')
+
+        }
+    })
 
     const handleSubmit = async (e) => {
-      
-        e.preventDefault();
-        setError('');
         const json = await api.CadCliente(nome, tipodepessoa, cpf_cnpj, cep, endereco, bairro, cidade, estado, pais, numero, complemento);
-      
+        if (json.error) {
+            setError(json.error);
+        } else {
+            window.location.href = '/cliente';
+        }
     }
 
     return (
         <>
-            <Container>
-                <h1 className={classes.title}>Cadastrar Cliente</h1>
-                <form className={classes.title} noValidate autoComplete="off">
-                    <Grid container >
-                        <Grid item xs={12}>
-                            <TextField label="Nome" id="standard-size-small" value={nome} onChange={e => setNome(e.target.value)} />
-                            <TextField label="Tipo de pessoa" value={tipodepessoa} onChange={e => setTipodepessoa(e.target.value)} placeholder="Fisica ou Juridica" id="standard-size-small" />
-                            <TextField label="Cpf ou CNPJ" value={cpf_cnpj} onChange={e => setCpf_cnpj(e.target.value)} id="standard-size-small" />
+            <Container >
+                <h1 className={classes.title}>{isNew ? "Cadastrar" : "Editar"} Cliente</h1>
+                <Grid className={classes.form}>
+                    <form className={classes.title} noValidate autoComplete="off" onSubmit={handleSubmit}>
+                        <Grid container >
+                            <Grid item xs={12}>
+                                <TextField label="Nome" id="standard-size-small" value={nome} onChange={e => setNome(e.target.value)} />
+                                <TextField label="Tipo de pessoa" value={tipodepessoa} onChange={e => setTipodepessoa(e.target.value)} placeholder="Fisica ou Juridica" id="standard-size-small" />
+                                <TextField label="Cpf ou CNPJ" value={cpf_cnpj} onChange={e => setCpf_cnpj(e.target.value)} id="standard-size-small" />
+                            </Grid>
                         </Grid>
-                    </Grid>
-                    <Grid container >
-                        <Grid item xs={12}>
-                            <TextField label="CEP" value={cep} onChange={e => setCep(e.target.value)} id="standard-size-small" />
-                            <TextField label="Endereço" value={endereco} onChange={e => setEndereco(e.target.value)} id="standard-size-small" />
-                            <TextField label="Bairro" value={bairro} onChange={e => setBairro(e.target.value)} id="standard-size-small" />
+                        <Grid container >
+                            <Grid item xs={12}>
+                                <TextField label="CEP" value={cep} onChange={e => setCep(e.target.value)} id="standard-size-small" />
+                                <TextField label="Endereço" value={endereco} onChange={e => setEndereco(e.target.value)} id="standard-size-small" />
+                                <TextField label="Bairro" value={bairro} onChange={e => setBairro(e.target.value)} id="standard-size-small" />
+                            </Grid>
                         </Grid>
-                    </Grid>
-                    <Grid container >
-                        <Grid item xs={12}>
-                            <TextField label="Cidade" value={cidade} onChange={e => setCidade(e.target.value)} id="standard-size-small" />
-                            <TextField label="Estado" value={estado} onChange={e => setEstado(e.target.value)} id="standard-size-small" />
-                            <TextField label="Pais" value={pais} onChange={e => setPais(e.target.value)} id="standard-size-small" />
-                            <TextField label="Numero" value={numero} onChange={e => setNumero(e.target.value)} id="standard-size-small" />
-                            <TextField label="Complemento" value={complemento} onChange={e => setComplemento(e.target.value)} id="standard-size-small" />
+                        <Grid container >
+                            <Grid item xs={12}>
+                                <TextField label="Cidade" value={cidade} onChange={e => setCidade(e.target.value)} id="standard-size-small" />
+                                <TextField label="Estado" value={estado} onChange={e => setEstado(e.target.value)} id="standard-size-small" />
+                                <TextField label="Pais" value={pais} onChange={e => setPais(e.target.value)} id="standard-size-small" />
+                                <TextField label="Numero" value={numero} onChange={e => setNumero(e.target.value)} id="standard-size-small" />
+                                <TextField label="Complemento" value={complemento} onChange={e => setComplemento(e.target.value)} id="standard-size-small" />
+                            </Grid>
                         </Grid>
-                    </Grid>
 
-                    <Button variant="contained" color="primary" onClick={handleSubmit} >  Cadastrar Cliente</Button>
+                        <Button variant="contained" color="primary" onClick={handleSubmit} >  Cadastrar Cliente</Button>
 
-                </form>
+                    </form>
+                </Grid>
             </Container>
 
 
