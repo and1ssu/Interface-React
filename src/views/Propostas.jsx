@@ -56,7 +56,7 @@ const useStyles = makeStyles({
         display: "flex",
         justifyContent: "space-around"
     },
-    addcliente: {
+    addpropostas: {
         marginTop: 100,
         marginLeft: 300,
 
@@ -70,32 +70,32 @@ const useStyles = makeStyles({
 });
 
 
-export default function Cliente() {
+export default function Propostas() {
     const classes = useStyles();
 
 
     const [error, setError] = useState('');
-    const [clients, setClients] = useState([]);
+    const [proposals, setProposals] = useState([]);
 
-    const getClients = async () => {
-        const clients = await api.getClients();
-        setClients(clients)
+    const  getProdutos = async () => {
+        const proposals = await api. getProdutos();
+        setProposals(proposals)
 
     };
 
     useEffect(() => {       
-        getClients();
+        getProdutos();
     }, []);
 
  
 
 
     const handleDel = async (dados) => {
-        const json = await api.DelCliente(dados.idclients)
+        const json = await api.DelProdutos(dados.id)
         if (json.error) {
             setError(json.error);
         } else {
-            window.location.href = '/cliente';
+            window.location.href = '/propostas';
         }
     };
 
@@ -104,38 +104,34 @@ export default function Cliente() {
 
 
     return (<Container>
-        <Grid className={classes.addcliente}>
-            <Link to={{ pathname: "/cadastro", state: { dados: false, create: true } }}>
+        <Grid className={classes.addpropostas}>
+            <Link to={{ pathname: "/propostas", state: { dados: false, create: true } }}>
                 <Button variant="contained" color="primary" className={classes.button} >
-                    Adicionar CLiente</Button>
+                    Adicionar Propostas</Button>
             </Link>
         </Grid>
         <TableContainer>
             <Table className={classes.table} aria-label="customized table">
                 <TableHead>
                     <TableRow>
-                        <StyledTableCell  >Nome</StyledTableCell>
-                        <StyledTableCell align="center">Tipo de Pessoa</StyledTableCell>
-                        <StyledTableCell align="center">CPF/CNPJ</StyledTableCell>
-                        <StyledTableCell align="center">Cep</StyledTableCell>
-                        <StyledTableCell align="center">Cidade</StyledTableCell>
-                        <StyledTableCell align="center">Estado</StyledTableCell>
-                        <StyledTableCell align="center">Pais</StyledTableCell>
-                        <StyledTableCell align="center">Ações</StyledTableCell>
+                        <StyledTableCell  >Codigo</StyledTableCell>
+                        <StyledTableCell align="center">Assunto</StyledTableCell>
+                        <StyledTableCell align="center">Data</StyledTableCell>
+                        <StyledTableCell align="center">Validade</StyledTableCell>
+                        <StyledTableCell align="center">Cliente</StyledTableCell>
+                        <StyledTableCell align="center">Ações</StyledTableCell>                      
                     </TableRow>
                 </TableHead>
                 <TableBody>
-                    {clients.map((dados) => (
+                    {proposals.map((dados) => (
                         <StyledTableRow key={dados}>
                             <StyledTableCell className={classes.wrow} component="th" scope="row">
-                                {dados.nome}
+                                {dados.codigo}
                             </StyledTableCell>
-                            <StyledTableCell className={classes.wrow} align="center">{dados.tipodepessoa}</StyledTableCell>
-                            <StyledTableCell className={classes.wrow} align="center">{dados.cpf_cnpj}</StyledTableCell>
-                            <StyledTableCell className={classes.wrow} align="right">{dados.cep}</StyledTableCell>
-                            <StyledTableCell className={classes.wrow} align="right">{dados.cidade}</StyledTableCell>
-                            <StyledTableCell className={classes.wrow} align="right">{dados.estado}</StyledTableCell>
-                            <StyledTableCell className={classes.wrow} align="right">{dados.pais}</StyledTableCell>
+                            <StyledTableCell className={classes.wrow} align="right">{dados.assunto}</StyledTableCell>
+                            <StyledTableCell className={classes.wrow} align="right">{dados.data}</StyledTableCell>
+                            <StyledTableCell className={classes.wrow} align="right">{dados.datavalidade}</StyledTableCell>
+                            <StyledTableCell className={classes.wrow} align="right">{dados.idclient}</StyledTableCell>                            
                             <StyledTableCell className={classes.wrow} align="center" className={classes.acoesIcons} >
                                 <Link to={{ pathname: "/cadastro", state: { dados, create: false } }}>
                                     <EditIcon className={classes.icons} />
