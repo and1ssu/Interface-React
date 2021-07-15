@@ -15,7 +15,6 @@ import EditIcon from '@material-ui/icons/Edit';
 import DeleteIcon from '@material-ui/icons/Delete';
 import { Button, Grid } from '@material-ui/core';
 import { Link } from 'react-router-dom'
-import moment from 'moment';
 
 const StyledTableCell = withStyles((theme) => ({
     head: {
@@ -71,32 +70,32 @@ const useStyles = makeStyles({
 });
 
 
-export default function Propostas() {
+export default function Produtos() {
     const classes = useStyles();
 
 
     const [error, setError] = useState('');
-    const [proposals, setProposals] = useState([]);
+    const [products, setProducts] = useState([]);
 
-    const  getPropostas = async () => {
-        const proposals = await api. getPropostas();
-        setProposals(proposals)
+    const  getProdutos = async () => {
+        const products = await api.getProdutos();
+        setProducts(products)
 
     };
 
     useEffect(() => {       
-        getPropostas();
+        getProdutos();
     }, []);
 
  
 
 
     const handleDel = async (dados) => {
-        const json = await api.DelPropostas(dados.id)
+        const json = await api.DelProdutos(dados.id)
         if (json.error) {
             setError(json.error);
         } else {
-            window.location.href = '/propostas';
+            window.location.href = '/produtos';
         }
     };
 
@@ -106,35 +105,35 @@ export default function Propostas() {
 
     return (<Container>
         <Grid className={classes.addpropostas}>
-            <Link to={{ pathname: "/cadpropostas", state: { dados: false, create: true } }}>
+            <Link to={{ pathname: "/cadprodutos", state: { dados: false, create: true } }}>
                 <Button variant="contained" color="primary" className={classes.button} >
-                    Adicionar Propostas</Button>
+                    Adicionar Produtuos</Button>
             </Link>
         </Grid>
-        <TableContainer>
+        <TableContainer> 
             <Table className={classes.table} aria-label="customized table">
                 <TableHead>
                     <TableRow>
-                        <StyledTableCell  >Codigo</StyledTableCell>
-                        <StyledTableCell align="center">Assunto</StyledTableCell>
-                        <StyledTableCell align="center">Data</StyledTableCell>
-                        <StyledTableCell align="center">Validade</StyledTableCell>
-                        <StyledTableCell align="center">Cliente</StyledTableCell>                        
-                        <StyledTableCell align="center">Ações</StyledTableCell>                      
+                        <StyledTableCell align="center" >Descrição</StyledTableCell>
+                        <StyledTableCell align="center">Descritivo</StyledTableCell>
+                        <StyledTableCell align="center">Valor da Venda </StyledTableCell>
+                        <StyledTableCell align="center">Tipos</StyledTableCell>
+                        <StyledTableCell align="center">Forma de Comercialização</StyledTableCell>                                          
+                        <StyledTableCell align="center">Ações</StyledTableCell>                                          
                     </TableRow>
                 </TableHead>
                 <TableBody>
-                    {proposals.map((dados) => (
-                        <StyledTableRow key={dados}>
+                    {products.map((dados) => (
+                        <StyledTableRow key={dados}>                      
                             <StyledTableCell className={classes.wrow} component="th" scope="row">
-                                {dados.codigo}
+                                {dados.descricao}
                             </StyledTableCell>
-                            <StyledTableCell className={classes.wrow} align="right">{dados.assunto}</StyledTableCell>
-                            <StyledTableCell  type="date" className={classes.wrow} align="right">{moment(dados.data).format("DD/MM/YYYY")}</StyledTableCell>
-                            <StyledTableCell className={classes.wrow} align="right">{moment(dados.datavalidade).format("DD/MM/YYYY")}</StyledTableCell>                                                      
-                            <StyledTableCell className={classes.wrow} align="right">{dados.nome}</StyledTableCell>                            
+                            <StyledTableCell className={classes.wrow} align="right">{dados.descritivo}</StyledTableCell>
+                            <StyledTableCell className={classes.wrow} align="right">{dados.valorvenda}</StyledTableCell>
+                            <StyledTableCell className={classes.wrow} align="right">{dados.tipos}</StyledTableCell>
+                            <StyledTableCell className={classes.wrow} align="center">{dados.formacomercializacao}</StyledTableCell>                            
                             <StyledTableCell className={classes.wrow} align="center" className={classes.acoesIcons} >
-                                <Link to={{ pathname: "/cadpropostas", state: { dados, create: false } }}>
+                                <Link to={{ pathname: "/cadprodutos", state: { dados, create: false } }}>
                                     <EditIcon className={classes.icons} />
                                 </Link>
                                 <DeleteIcon onClick={() => handleDel(dados)} className={classes.icons} />

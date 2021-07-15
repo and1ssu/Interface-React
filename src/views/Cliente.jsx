@@ -16,6 +16,7 @@ import DeleteIcon from '@material-ui/icons/Delete';
 import { Button, Grid } from '@material-ui/core';
 import { Link } from 'react-router-dom'
 
+
 const StyledTableCell = withStyles((theme) => ({
     head: {
         backgroundColor: theme.palette.common.black,
@@ -83,11 +84,11 @@ export default function Cliente() {
 
     };
 
-    useEffect(() => {       
+    useEffect(() => {
         getClients();
     }, []);
 
- 
+
 
 
     const handleDel = async (dados) => {
@@ -103,51 +104,58 @@ export default function Cliente() {
 
 
 
-    return (<Container>
-        <Grid className={classes.addcliente}>
-            <Link to={{ pathname: "/cadastro", state: { dados: false, create: true } }}>
-                <Button variant="contained" color="primary" className={classes.button} >
-                    Adicionar CLiente</Button>
-            </Link>
-        </Grid>
-        <TableContainer>
-            <Table className={classes.table} aria-label="customized table">
-                <TableHead>
-                    <TableRow>
-                        <StyledTableCell  >Nome</StyledTableCell>
-                        <StyledTableCell align="center">Tipo de Pessoa</StyledTableCell>
-                        <StyledTableCell align="center">CPF/CNPJ</StyledTableCell>
-                        <StyledTableCell align="center">Cep</StyledTableCell>
-                        <StyledTableCell align="center">Cidade</StyledTableCell>
-                        <StyledTableCell align="center">Estado</StyledTableCell>
-                        <StyledTableCell align="center">Pais</StyledTableCell>
-                        <StyledTableCell align="center">Ações</StyledTableCell>
-                    </TableRow>
-                </TableHead>
-                <TableBody>
-                    {clients.map((dados) => (
-                        <StyledTableRow key={dados}>
-                            <StyledTableCell className={classes.wrow} component="th" scope="row">
-                                {dados.nome}
-                            </StyledTableCell>
-                            <StyledTableCell className={classes.wrow} align="center">{dados.tipodepessoa}</StyledTableCell>
-                            <StyledTableCell className={classes.wrow} align="center">{dados.cpf_cnpj}</StyledTableCell>
-                            <StyledTableCell className={classes.wrow} align="right">{dados.cep}</StyledTableCell>
-                            <StyledTableCell className={classes.wrow} align="right">{dados.cidade}</StyledTableCell>
-                            <StyledTableCell className={classes.wrow} align="right">{dados.estado}</StyledTableCell>
-                            <StyledTableCell className={classes.wrow} align="right">{dados.pais}</StyledTableCell>
-                            <StyledTableCell className={classes.wrow} align="center" className={classes.acoesIcons} >
-                                <Link to={{ pathname: "/cadastro", state: { dados, create: false } }}>
-                                    <EditIcon className={classes.icons} />
-                                </Link>
-                                <DeleteIcon onClick={() => handleDel(dados)} className={classes.icons} />
-                            </StyledTableCell>
+    return (
+        <>
+          <Paper>
+            <Container>
 
-                        </StyledTableRow>
-                    ))}
-                </TableBody>
-            </Table>
-        </TableContainer>
-    </Container>
+                <Grid className={classes.addcliente}>
+                    <Link to={{ pathname: "/cadastro", state: { dados: false, create: true } }}>
+                        <Button variant="contained" color="primary" className={classes.button} >
+                            Adicionar CLiente</Button>
+                    </Link>
+                </Grid>
+                <TableContainer >
+                    <Table className={classes.table} aria-label="customized table">
+                        <TableHead>
+                            <TableRow>
+                                <StyledTableCell  >Nome</StyledTableCell>
+                                <StyledTableCell align="center">Tipo de Pessoa</StyledTableCell>
+                                <StyledTableCell align="center">CPF/CNPJ</StyledTableCell>
+                                <StyledTableCell align="center">Cep</StyledTableCell>
+                                <StyledTableCell align="center">Cidade</StyledTableCell>
+                                <StyledTableCell align="center">Estado</StyledTableCell>
+                                <StyledTableCell align="center">Pais</StyledTableCell>
+                                <StyledTableCell align="center">Ações</StyledTableCell>
+                            </TableRow>
+                        </TableHead>
+                        <TableBody>
+                            {clients.map((dados) => (
+                                <StyledTableRow key={dados}>
+                                    <StyledTableCell className={classes.wrow} component="th" scope="row">
+                                        {dados.nome}
+                                    </StyledTableCell>
+                                    <StyledTableCell className={classes.wrow} align="center">{dados.tipodepessoa}</StyledTableCell>
+                                    <StyledTableCell className={classes.wrow} align="center">{dados.cpf_cnpj}</StyledTableCell>
+                                    <StyledTableCell className={classes.wrow} align="right">{dados.cep}</StyledTableCell>
+                                    <StyledTableCell className={classes.wrow} align="right">{dados.cidade}</StyledTableCell>
+                                    <StyledTableCell className={classes.wrow} align="right">{dados.estado}</StyledTableCell>
+                                    <StyledTableCell className={classes.wrow} align="right">{dados.pais}</StyledTableCell>
+                                    <StyledTableCell className={classes.wrow} align="center" className={classes.acoesIcons} >
+                                        <Link to={{ pathname: "/cadastro", state: { dados, create: false } }}>
+                                            <EditIcon className={classes.icons} />
+                                        </Link>
+                                        <DeleteIcon onClick={() => handleDel(dados)} className={classes.icons} />
+                                    </StyledTableCell>
+
+                                </StyledTableRow>
+                            ))}
+                        </TableBody>
+                    </Table>
+                </TableContainer>
+            </Container>
+        </Paper>
+        </>
+      
     );
 }

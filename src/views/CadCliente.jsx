@@ -1,12 +1,12 @@
 import TextField from '@material-ui/core/TextField';
 import Grid from '@material-ui/core/Grid';
 import { makeStyles } from '@material-ui/core/styles';
-import { Button, Container } from '@material-ui/core';
+import { Button, Container, MenuItem } from '@material-ui/core';
 import { useState } from 'react';
 import api from '../ApiDesafio';
 import { useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
-
+import ViaCep from 'react-via-cep';
 
 const useStyles = makeStyles((theme) => ({
     title: {
@@ -33,6 +33,7 @@ const useStyles = makeStyles((theme) => ({
 const CadCliente = () => {
     const classes = useStyles();
 
+
     const [idclients, setIdclients] = useState('');
     const [nome, setNome] = useState('');
     const [tipodepessoa, setTipodepessoa] = useState('');
@@ -56,6 +57,7 @@ const CadCliente = () => {
         setIsNew(create)
 
         if (dados) {
+
             setIdclients(dados.idclients)
             setNome(dados.nome)
             setTipodepessoa(dados.tipodepessoa)
@@ -87,10 +89,23 @@ const CadCliente = () => {
         }
     }, [])
 
+
+    const currencies = [
+        {
+            value: 'Fisica',
+            label: 'Fisica',
+        },
+        {
+            value: 'Juridica',
+            label: 'Juridica',
+        },
+
+    ];
+
     const handleSubmit = async (e) => {
         const json = await isNew ? api.CadCliente(nome, tipodepessoa, cpf_cnpj, cep, endereco, bairro, cidade, estado, pais, numero, complemento) :
-        api.PutCliente( idclients, nome, tipodepessoa, cpf_cnpj, cep, endereco, bairro, cidade, estado, pais, numero, complemento)
-            
+            api.PutCliente(idclients, nome, tipodepessoa, cpf_cnpj, cep, endereco, bairro, cidade, estado, pais, numero, complemento)
+
         if (json.error) {
             setError(json.error);
         } else {
@@ -106,8 +121,24 @@ const CadCliente = () => {
                     <form className={classes.title} noValidate autoComplete="off" onSubmit={handleSubmit}>
                         <Grid container >
                             <Grid item xs={12}>
-                                <TextField label="Nome" value={nome} onChange={e => setNome(e.target.value)}  />
-                                <TextField label="Tipo de pessoa" value={tipodepessoa} onChange={e => setTipodepessoa(e.target.value)} placeholder="Fisica ou Juridica" />
+                                <TextField label="Nome" value={nome} onChange={e => setNome(e.target.value)} />
+                                <TextField
+                                   
+                                    select
+                                    label="Tipo de pessoa"
+                                    value={tipodepessoa}
+                                    onChange={e => setTipodepessoa(e.target.value)}                                   
+
+                                >
+                                    {currencies.map((option) => (
+                                        <MenuItem key={option.value} value={option.value}>
+                                            {option.label}
+                                        </MenuItem>
+                                    ))}
+                                </TextField>
+
+
+
                                 <TextField label="Cpf ou CNPJ" value={cpf_cnpj} onChange={e => setCpf_cnpj(e.target.value)} />
                             </Grid>
                         </Grid>
@@ -123,8 +154,13 @@ const CadCliente = () => {
                                 <TextField label="Cidade" value={cidade} onChange={e => setCidade(e.target.value)} />
                                 <TextField label="Estado" value={estado} onChange={e => setEstado(e.target.value)} />
                                 <TextField label="Pais" value={pais} onChange={e => setPais(e.target.value)} />
+                            </Grid>
+                        </Grid>
+                        <Grid container>
+                            <Grid item xs={12}>
                                 <TextField label="Numero" value={numero} onChange={e => setNumero(e.target.value)} />
                                 <TextField label="Complemento" value={complemento} onChange={e => setComplemento(e.target.value)} />
+
                             </Grid>
                         </Grid>
 

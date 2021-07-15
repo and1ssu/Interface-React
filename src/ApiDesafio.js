@@ -81,6 +81,16 @@ const apiFetchDelete = async (endpoint, body) => {
 // };
 
 export default {
+
+    getSerchId : async () => {
+        const res = await fetch(BASEAPI+'/clients');
+        const json = await res.json();
+        return json;
+    },
+
+
+
+
     //#################Clientes###########################################################################
     getClients : async () => {
         const res = await fetch(BASEAPI+'/clients');
@@ -116,15 +126,15 @@ export default {
     },
     //#############################################################################
 
-    //########################PRODUTOS#############################################
+    //########################Propostas#############################################
 
 
-    getProdutos : async () => {
+    getPropostas : async () => {
         const res = await fetch(BASEAPI+'/proposals');
         const json = await res.json();
         return json;
     },
-    CadProdutos :async ( codigo, assunto, data, datavalidade, idclient) => {
+    CadPropostas :async ( codigo, assunto, data, datavalidade, idclient) => {
         const json = await apiFetchPost(
             '/proposals',
             {
@@ -134,11 +144,48 @@ export default {
         return json;
     },
 
-    PutProdutos :async ( idclients, nome, tipodepessoa, cpf_cnpj, cep, endereco, bairro, cidade, estado, pais, numero, complemento) => {
+    PutPropostas :async ( id, codigo, assunto, data, datavalidade, idclient) => {
         const json = await apiFetchPut(
-            `/proposals/${idclients}`,
+            `/proposals/${id}`,
             {
-                idclients, nome, tipodepessoa, cpf_cnpj, cep, endereco, bairro, cidade, estado, pais, numero, complemento
+                id, codigo, assunto, data, datavalidade, idclient
+            }
+        );
+        return json;
+    },
+
+    DelPropostas :async ( id) => {
+        const json = await apiFetchDelete(
+            `/proposals/${id}`,
+            {id}
+        );
+        return json;
+    },
+
+     //#############################################################################
+
+    //########################PRODUTOS#############################################
+
+    getProdutos : async () => {
+        const res = await fetch(BASEAPI+'/productsandservice');
+        const json = await res.json();
+        return json;
+    },
+    CadProdutos :async ( descricao, descritivo, valorvenda, tipos, formacomercializacao) => {
+        const json = await apiFetchPost(
+            '/productsandservice',
+            {
+              descricao, descritivo, valorvenda, tipos, formacomercializacao
+            }
+        );
+        return json;
+    },
+
+    PutProdutos :async ( id, descricao, descritivo, valorvenda, tipos, formacomercializacao) => {
+        const json = await apiFetchPut(
+            `/productsandservice/${id}`,
+            {
+                id, descricao, descritivo, valorvenda, tipos, formacomercializacao
             }
         );
         return json;
@@ -146,7 +193,7 @@ export default {
 
     DelProdutos :async ( id) => {
         const json = await apiFetchDelete(
-            `/proposals/${id}`,
+            `/productsandservice/${id}`,
             {id}
         );
         return json;

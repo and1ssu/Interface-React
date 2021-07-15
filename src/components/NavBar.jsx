@@ -17,12 +17,16 @@ import ListItem from '@material-ui/core/ListItem';
 import HomeIcon from '@material-ui/icons/Home'; import clsx from 'clsx';
 import PersonIcon from '@material-ui/icons/Person';
 import AssignmentIcon from '@material-ui/icons/Assignment';
+import AllInboxIcon from '@material-ui/icons/AllInbox';
 import Button from '@material-ui/core/Button';
 import { Route, Switch, Link, BrowserRouter } from 'react-router-dom';
 import Cliente from '../views/Cliente'
 import Home from '../views/Home'
 import CadCliente from '../views/CadCliente';
 import Propostas from '../views/Propostas';
+import Produtos from '../views/Produtos';
+import CadPropostas from '../views/CadPropostas';
+import CadProdutos from '../views/CadProdutos';
 
 const drawerWidth = 240;
 const useStyles = makeStyles((theme) => ({
@@ -221,6 +225,17 @@ const NavBar = (prop) => {
                             </Link>
 
                         </ListItem>
+                        <ListItem>
+                            <Link className={classes.button} to="/produtos">
+                                <Button
+                                    className={classes.button}
+                                    startIcon={<AllInboxIcon />}
+                                    href={'/produtos'}
+                                >
+                                    Produtos</Button>
+                            </Link>
+
+                        </ListItem>
                     </List>
 
                 </Drawer>
@@ -238,6 +253,15 @@ const NavBar = (prop) => {
                 </Route>
                 <Route  path='/propostas'>
                     <Propostas />
+                </Route>
+                <Route path='/cadpropostas'>
+                    <CadPropostas />
+                </Route>
+                <Route  path='/produtos'>
+                    <Produtos />
+                </Route>
+                <Route path='/cadprodutos'>
+                    <CadProdutos />
                 </Route>
                 
             </Switch>
