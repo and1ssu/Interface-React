@@ -24,7 +24,7 @@ const StyledTableCell = withStyles((theme) => ({
         whiteSpace: 'nowrap',
     },
     body: {
-        fontSize: 12,
+        fontSize: 11,
     },
 
 }))(TableCell);

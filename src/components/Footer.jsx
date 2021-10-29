@@ -32,7 +32,7 @@ const Footer = () => {
                 <Container maxWidth="md">
                     <Toolbar>
                         <Typography  className={classes.txt}>
-                            © 2021 Desafio Wattei
+                            © 2021 Interface React 
                         </Typography>
                     </Toolbar>
                 </Container>
